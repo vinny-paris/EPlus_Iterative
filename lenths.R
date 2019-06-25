@@ -2,6 +2,9 @@ library(RcppEigen)
 library(Matrix)
 library(stringr)
 library(purrr)
+library(data.table)
+library(cluster)
+
 
 
 #response is the energy consumption values per treatment
