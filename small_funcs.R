@@ -13,12 +13,14 @@ ma <- function(x){
 }
   
 
-choosey <- function(sig){
+fu <- function(x) length(unique(x))
+
+choosey <- function(sig, new_groups){
   k <- names(sig)
   l <- str_split(k, pattern = "")
   m <- map(l, length)
-  n <- which(m < 5)
-  o <- l[n]
+  n <- which(m < new_groups)
+  ifelse(length(n) == 0, o <- l[1], o <- l[n])
   p <- map(o, function(x) x[-1])
   q <- unique(unlist(p))
   return(q)
