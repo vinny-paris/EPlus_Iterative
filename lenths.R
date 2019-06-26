@@ -38,7 +38,7 @@ Lenth <- function(response, design_matrix, data, new_groups = 6) {
   
 
   #calculate the betas and use lenths to find the inital sig. betas
-  b <- lm(response ~ f)$coefficients
+  b <- fastLmPure(f, response)$coefficients
   
   s_initial <- 3.75 * median(abs(b))
   
@@ -46,16 +46,23 @@ Lenth <- function(response, design_matrix, data, new_groups = 6) {
   pse <- 1.5 * median(abs(b_star))
   sig <- subset(b, abs(b) > 2*pse)
   
-  q <- choosey(sig)
+  q <- choosey(sig, new_groups)
   
   #cut down group size to make sure each step is useful
   while(length(q) > new_groups){
+    stop <- FALSE
+    j <- sig[abs(sig) > min(abs(sig))]
+    if(length(j) == 0){
+      q <- choosey(sig[1], new_groups)
+      stop <- TRUE
+      break} 
+    if(stop){break}
     sig <- sig[abs(sig) > min(abs(sig))]
-    q <- choosey(sig)
+    q <- choosey(sig, new_groups)
   }
   
   if(length(sig) == 0){
-    q <- sig[abs(sig) == max(abs(sig))]
+    q <- choosey(sig[abs(sig) == max(abs(sig))], new_groups)
   }
   
   #convert letters into groups
