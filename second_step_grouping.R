@@ -10,7 +10,7 @@ grouping_it <- function(data, sig_groups = NULL, num_of_groups = 10){
     }
   new_groupss <- subset(data, data$Group %in% sig_groups)
   
-
+  
  
   exp_data <- make_groups(group_size = num_of_groups, data = new_groupss) 
   design_matrix <- design_with_defaults(data_summary = exp_data, data = data) 
